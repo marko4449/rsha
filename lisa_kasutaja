@@ -1,0 +1,6 @@
+#! /bin/bash
+echo "Sisesta kasutajanimi"
+read kasutaja
+#echo `grep "^${USERNAME}:" /etc/passwd`
+#if 
+echo `adduser --disabled-password --gecos "" $kasutaja`
