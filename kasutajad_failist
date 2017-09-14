@@ -5,6 +5,9 @@ read fail
 input="./$fail"
 while IFS= read line
 do
-	echo `adduser --disabled-password --gecos "" $line`
+
+# Command that adds user without password
+#	echo `adduser --disabled-password --gecos "" $line`
+echo `adduser `
 echo "$line"
 done < "$fail"
