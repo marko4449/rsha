@@ -3,11 +3,18 @@
 echo "Sisesta faili nimi"
 read fail
 input="./$fail"
+
 while IFS= read line
 do
-
+	kasutaja=$( echo "$line" | cut -d\: -f1 )
+	parool=$( echo "$line" | cut -d\: -f2  )
+echo $parool
+echo $kasutaja
 # Command that adds user without password
 #	echo `adduser --disabled-password --gecos "" $line`
-echo `adduser `
-echo "$line"
+echo `useradd $kasutaja `
+
+echo "$parool" | chpasswd
+
+#echo -e "$password"
 done < "$fail"
