@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+if ! [ $(id -u) -ne 0 ]; then
+ echo "this has to be executed as root"
+ exit 1
+else
+echo "Sisesta faili nimi"
+read fail
+input="./$fail"
+while IFS= read line
+do
+	kasutaja=$( echo "$line" | cut -d\: -f1 )
+	parool=$( echo "$line" | cut -d\: -f2  )
+#echo $parool
+#echo $kasutaja
+# Command that adds user without password
+#	echo `adduser --disabled-password --gecos "" $line`
+echo `useradd $kasutaja `
+echo $kasutaja:$parool | chpasswd
+echo 'kasutajate lisamine'
+#echo "$parool" | chpasswd
+#echo -e "$password"
+done < "$fail"
+fi
