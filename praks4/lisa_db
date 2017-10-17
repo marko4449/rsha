@@ -1,17 +1,10 @@
 #!/bin/bash
-mysqllogin () {
-      	echo "Sisesta kasutajanimi"
-	read kasutaja
-	#echo "Sisesta praool"
-		#read parool
-	mysql -u $kasutaja -p
-	mysql -e "CREATE DATABASE $nimi"
-	mysql 
-}
-printf "Vali missugust funktsiooni kasutada.\n[1]Lisa andmebaas\n"
-read valik
-case "$valik" in
-	"1")mysqllogin
-;;
-esac
-
+#nimi="$(whoami)"
+nimi=$1
+#echo "$nimi"
+pass=`pwgen -s 10 1 > pass`
+	mysql -e "CREATE DATABASE ${nimi}"
+	mysql -e "CREATE USER ${nimi}@localhost IDENTIFIED BY '${pass}';"
+	mysql -e "GRANT ALL PRIVILEGES ON * . * TO '${nimi}'@'localhost';"
+	mysql -e "FLUSH PRIVILEGES;"
+echo "username $nimi"
