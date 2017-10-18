@@ -1,0 +1,15 @@
+#!/bin/bash
+echo 'Sisesta nimi kelle kaustu uurida'
+read nimi
+if [ -f /home/$nimi/.my.cnf ]
+then
+	echo 'fail on olemas'
+else
+	if [[ $(cat /etc/passwd | grep $nimi | cut -d\: -f1 ) == $nimi ]]
+	then
+#		cat /home/marko/Desktop/rsha/praks4/.my.cnf >> /home/$nimi/.my.cnf
+	mkdir /home/$nimi/public
+	else
+		echo 'kasutajat pole olemas'
+fi	
+fi
