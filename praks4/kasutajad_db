@@ -1,15 +1,22 @@
 #!/bin/bash
-echo 'Sisesta nimi kelle kaustu uurida'
-read nimi
+#echo 'Sisesta nimi kelle kaustu uurida'
+#read nimi
+cat /etc/passwd | grep /home | cut -d: -f1 > kasutajad
+while IFS= read line
+do
+nimi=$(echo "$line")
 if [ -f /home/$nimi/.my.cnf ]
 then
-	echo 'fail on olemas'
+	echo 'fail on olemas' $nimi
 else
-	if [[ $(cat /etc/passwd | grep $nimi | cut -d\: -f1 ) == $nimi ]]
-	then
-#		cat /home/marko/Desktop/rsha/praks4/.my.cnf >> /home/$nimi/.my.cnf
-	mkdir /home/$nimi/public
-	else
-		echo 'kasutajat pole olemas'
-fi	
+	echo 'faili ei olemas kasutajal' $nimi
+	pass=$(pwgen -s 10 1)	
+	echo 'Loon faili kasutajale' $nimi
+	printf "[client]\nuser=$nimi\npassword=$pass\n" > /home/$nimi/.my.cnf 
+	mysql -e "CREATE DATABASE ${nimi}"
+	mysql -e "CREATE USER ${nimi}@localhost IDENTIFIED BY '${pass}';"
+        mysql -e "GRANT ALL PRIVILEGES ON * . * TO '${nimi}'@'localhost';"
+        mysql -e "FLUSH PRIVILEGES;"
+
 fi
+done < kasutajad
