@@ -1,0 +1,7 @@
+cat /etc/passwd | grep /home | cut -d: -f1 > kasutajad
+while IFS= read line
+do 
+nimi=$(echo "$line")
+tar czvf /home_bcp/$nimi.tar.gz /home/$nimi /var/lib/mysql/$nimi
+done < kasutajad
+
