@@ -1,0 +1,11 @@
+#!/bin/bash
+paste kasutajad2 paroolid | while IFS="$(printf '\t')" read -r f1 f2
+do
+ 	kasutaja=$( echo "$f1" )
+        parool=$( echo "$f2" )
+#	echo $kasutaja
+#	echo $parool
+	echo `useradd $kasutaja`
+	echo $kasutaja:$parool | chpasswd
+	echo "Kasutajad lisatud"
+done
